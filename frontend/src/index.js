@@ -3,8 +3,9 @@ import { render } from 'react-dom'
 import { ApolloClient, InMemoryCache, ApolloProvider, gql, useQuery, HttpLink } from "@apollo/client";
 import { createPersistedQueryLink } from "@apollo/client/link/persisted-queries";
 import sha256 from 'sha256';
+import config from "./config"
 
-const httpLink = new HttpLink({ uri: "http://localhost:5000/graphql" });
+const httpLink = new HttpLink({ uri: config.graphqlApiUrl });
 const persistedQueriesLink = createPersistedQueryLink({ sha256 }).concat(httpLink);
 
 const client = new ApolloClient({
@@ -12,7 +13,7 @@ const client = new ApolloClient({
   link: persistedQueriesLink
 });
 
-const GET_BLOCKS = gql`
+const GET_BLOCKS_SUMMARY = gql`
   query GetBlocksFeed {
     blocksFeed {
       time
@@ -22,19 +23,53 @@ const GET_BLOCKS = gql`
   }
 `;
 
+const GET_BLOCK_DETAILS = gql`
+  query GetBlockDetails($hash: ID!) {
+    blockDetails(hash: $hash) {
+      blockIndex
+      fee
+      hash
+      size
+      transactions{
+        hash
+      }
+    }
+  }
+`;
+
 function Feed() {
-  const { loading, error, data } = useQuery(GET_BLOCKS);
+  const { loading, error, data } = useQuery(GET_BLOCKS_SUMMARY);
+
+  if (loading) return 'Loading...';
+  if (error) return `Error! ${error.message}`;
+
+  return (
+    <div> Blocks FEED:
+      {data.blocksFeed.map((block, i) => (
+        <div key={i}> {block.hash} </div>
+      ))}
+    </div>
+  );
+}
+
+function BlockDetails({ hash }) {
+  const { loading, error, data } = useQuery(GET_BLOCK_DETAILS, { variables: { hash } });
 
   if (loading) return 'Loading...';
   if (error) return `Error! ${error.message}`;
 
   return (
     <div>
-      {data.blocksFeed.map((block, i) => (
-        <div key={i} value={block.hash}>
-          {block.hash}
-        </div>
+      <h2>Block {data.blockDetails.blockIndex}</h2>
+      <h5>Hash: {data.blockDetails.hash}</h5>
+      <h5>Index: {data.blockDetails.blockIndex}</h5>
+      <h5>Fee:{data.blockDetails.fee}</h5>
+      <h5>Size:{data.blockDetails.size}</h5>
+      <h5>Block Transactions:
+        {data.blockDetails.transactions.map((tx, i) => (
+        <div key={i}>{tx.hash}</div>
       ))}
+      </h5>
     </div>
   );
 }
@@ -42,7 +77,13 @@ function Feed() {
 function App() {
   return (
     <ApolloProvider client={client}>
-      <Feed />
+      <div>-----------</div>
+      <Feed/>
+      <div>-----------</div>
+      <Feed/>
+      <div>-----------</div>
+      <Feed/>
+      <BlockDetails hash={"0000000000000000001261c0960066324c189fc83df5080d161be0849a98a4a8"} />
     </ApolloProvider>
   );
 }

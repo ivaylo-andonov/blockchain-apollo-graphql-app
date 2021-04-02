@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "outDir": "./dist",
-    "lib": [
-      "esnext.asynciterable"
-    ],
     "declaration": true,
-    "declarationMap": true,
     "target": "ES2019",
     "module": "commonjs",
     "sourceMap": true,

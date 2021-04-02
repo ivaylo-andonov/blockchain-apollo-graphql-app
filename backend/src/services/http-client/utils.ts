@@ -3,8 +3,8 @@ import { Headers, Response, ResponseType } from "node-fetch";
 export const getRequestHeaders = () => {
   return {
     headers: {
-      "content-Type": "application/vnd.api+json",
-      "accept-Encoding": "gzip, deflate"
+      "content-type": "application/json",
+      "accept-encoding": "gzip, deflate"
     }
   };
 };

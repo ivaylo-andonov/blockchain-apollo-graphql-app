@@ -6,6 +6,8 @@ services:
       context: ./backend
       dockerfile: ./Dockerfile
     container_name: backend
+    environment:
+      - BLOCKCHAIN_API_URL=https://blockchain.info
     ports:
       - "5000:5000"
     links:
@@ -17,6 +19,8 @@ services:
       context: ./frontend
       dockerfile: ./Dockerfile
     container_name: frontend
+    environment:
+      - GRAPHQL_API_URL=http://localhost:5000/graphql
     ports:
       - "3000:3000"
     links:

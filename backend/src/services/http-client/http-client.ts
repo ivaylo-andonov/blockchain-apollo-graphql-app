@@ -2,8 +2,8 @@ import nodeFetch, { RequestInit, Response } from "node-fetch";
 import { throwRequestError } from "./utils";
 
 export const INVALID_FORMAT = "Data source responded with invalid format";
-export const DATA_SOURCE_ERROR = "There was an error at the data source";
-export const timeout = 10 * 1000;
+export const DATA_SOURCE_ERROR = "There was an error at the external data provider";
+export const timeout = 12 * 1000;
 
 export const httpClientFactory = () => ({
   get: async (url: string, init?: RequestInit) => {

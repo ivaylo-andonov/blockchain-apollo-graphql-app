@@ -4,16 +4,20 @@ import resolversFactory from "./resolvers";
 import typeDefs from "./typeDefs";
 import config from "./config";
 import { httpClientFactory } from "./services/http-client";
+import { clientCache, createPersistedQueriesCache } from "./cache/redisCache";
+import responseCachePlugin from "apollo-server-plugin-response-cache";
 
 const httpClient = httpClientFactory();
-
 const blockchainDataSource = blockchainDataSourceFactory(httpClient, config);
 const resolvers = resolversFactory(blockchainDataSource);
 
 export default new ApolloServer({
   typeDefs,
   resolvers,
-  engine: false,
+  playground: true,
   subscriptions: false,
-  playground: true
+  plugins: [responseCachePlugin()],
+  persistedQueries: {
+    cache: createPersistedQueriesCache(clientCache)
+  }
 });
