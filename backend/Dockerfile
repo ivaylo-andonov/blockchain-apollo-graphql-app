@@ -5,10 +5,14 @@ WORKDIR /usr/src/app
 # Install app dependencies
 COPY package*.json ./
 
-RUN yarn install && yarn build
+COPY tsconfig.json ./
+
+RUN yarn install
 # Copy app source code
 COPY . .
 
+RUN yarn build
+
 #Expose port and start application
 EXPOSE 5000
-CMD [ "yarn", "start" ]
+CMD [ "node", "dist/index.js" ]

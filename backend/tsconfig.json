@@ -4,7 +4,6 @@
     "lib": [
       "esnext.asynciterable"
     ],
-    "baseUrl": "src",
     "declaration": true,
     "declarationMap": true,
     "target": "ES2019",
@@ -18,9 +17,9 @@
     "noImplicitReturns": true
   },
   "exclude": [
-    "**/node_modules/*"
+    "./node_modules/"
   ],
   "include": [
-    "src/**/*.ts"
+    "./src/"
   ]
 }
