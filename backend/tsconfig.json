@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "lib": [
+      "esnext.asynciterable"
+    ],
+    "baseUrl": "src",
+    "declaration": true,
+    "declarationMap": true,
+    "target": "ES2019",
+    "module": "commonjs",
+    "sourceMap": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "preserveSymlinks": true,
+    "noImplicitReturns": true
+  },
+  "exclude": [
+    "**/node_modules/*"
+  ],
+  "include": [
+    "src/**/*.ts"
+  ]
+}
