@@ -1,30 +1,36 @@
 import React from 'react';
-import FullPageLoader from '../components/Loaders/FullPageLoader';
-import { getBlockDetails } from "../queries";
 import { useQuery } from "@apollo/client";
-import Divider from "../components/Divider/Divider"
+import { getBlockDetails } from "../queries";
+import { Typography } from '@material-ui/core';
+import { DataGrid } from '@material-ui/data-grid';
+import FullPageLoader from '../components/FullPageLoader';
+import { getTransactionGridRows, blockTransactionsGridColumns, getTimeAgo, bytesToSize } from "./utils"
 
-export const BlockDetails = (props) => {
-    const hash = props.match.params.hash;
+export const BlockDetails = ({ match }) => {
+    const hash = match.params.hash;
     const { loading, error, data } = useQuery(getBlockDetails, { variables: { hash } });
 
     if (loading) return <FullPageLoader />
     if (error) return `Error! ${error.message}`;
 
     return (
-        <div>
-            <h2>Block {data.blockDetails.blockIndex}</h2>
-            <Divider />
-            <h5>Hash: {data.blockDetails.hash}</h5>
-            <h5>Index: {data.blockDetails.blockIndex}</h5>
-            <h5>Fee:{data.blockDetails.fee}</h5>
-            <h5>Size:{data.blockDetails.size}</h5>
-            <h5>Block Transactions:
-          {data.blockDetails.transactions.map((tx, i) => (
-                <div key={i}>{tx.hash}</div>
-            ))}
-            </h5>
-        </div>
+        <div style={{ width: '100%', textAlign: "center" }}>
+            <Typography variant="h3" gutterBottom> Block {data.blockDetails.blockIndex}</Typography>
+            <div style={{ height: "50px", textAlign: "left", fontSize: "x-large" }}>
+                <Typography variant="h6" gutterBottom> Hash: {data.blockDetails.hash}</Typography>
+                <Typography variant="h6" gutterBottom> Previous block: {data.blockDetails.prevBlock}</Typography>
+                <Typography variant="h6" gutterBottom> Index: {data.blockDetails.blockIndex}</Typography>
+                <Typography variant="h6" gutterBottom> Fee: {data.blockDetails.fee}</Typography>
+                <Typography variant="h6" gutterBottom> Size: {bytesToSize(data.blockDetails.size)}</Typography>
+                <Typography variant="h6" gutterBottom> Weight: {data.blockDetails.weight}</Typography>
+                <Typography variant="h6" gutterBottom> Height: {data.blockDetails.height}</Typography>
+                <Typography variant="h6" gutterBottom> Time: {getTimeAgo(data.blockDetails.time)}</Typography>
+                <Typography style={{ width: '100%', textAlign: "center" }} variant="h5" gutterBottom>Transactions:</Typography>
+                <div style={{ height: 300, width: '100%' }}>
+                    <DataGrid pageSize={100} rows={getTransactionGridRows(data)} columns={blockTransactionsGridColumns} />
+                </div>
+            </div>
+        </div >
     );
 }
 

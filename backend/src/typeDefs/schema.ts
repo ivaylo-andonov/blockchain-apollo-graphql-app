@@ -2,8 +2,8 @@ import { gql } from "apollo-server";
 
 const typeDefs = gql`
   type Query {
-    blocksFeed(daysAgo: DaysAgo): [BlockSummary] @cacheControl(maxAge: 60)
-    blockDetails(hash: ID!): BlockDetails @cacheControl(maxAge: 60)
+    blocksFeed(daysAgo: DaysAgo): [BlockSummary] @cacheControl(maxAge: 3600)
+    blockDetails(hash: ID!): BlockDetails @cacheControl(maxAge: 3600)
   }
 
   type BlockSummary {
@@ -24,11 +24,11 @@ const typeDefs = gql`
     fee: Int
     hash: ID
     height: Int
-    prevBlock: ID
+    prevBlock: ID 
     size: Int
     time: Int
     weight: Int
-    transactions: [Transaction] @cacheControl(maxAge: 60)
+    transactions: [Transaction] @cacheControl(maxAge: 3600)
   }
 
   type Transaction {

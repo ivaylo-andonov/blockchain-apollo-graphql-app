@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import FullPageLoader from './components/Loaders/FullPageLoader';
+import FullPageLoader from './components/FullPageLoader';
 import BlocksFeed from "./containers/BlocksFeed";
 import BlockDetails from "./containers/BlockDetails"
 

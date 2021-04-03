@@ -1,24 +1,29 @@
 import React from 'react';
-import Divider from "../components/Divider/Divider"
-import FullPageLoader from '../components/Loaders/FullPageLoader';
-import { getBlocksFeed } from "../queries";
+import { useHistory } from "react-router-dom";
 import { useQuery } from "@apollo/client";
-import { Link } from 'react-router-dom'
+import { Typography } from '@material-ui/core';
+import { DataGrid } from '@material-ui/data-grid';
+import { getBlocksFeed } from "../queries";
+import FullPageLoader from '../components/FullPageLoader';
+import { getBlocksSummaryGridRows, navigateToBlock, blocksSummaryGridColumns } from "./utils"
 
 export const BlocksFeed = () => {
     const { loading, error, data } = useQuery(getBlocksFeed);
+    const history = useHistory()
 
     if (loading) return <FullPageLoader />;
     if (error) return `Error! ${error.message}`;
 
     return (
         <React.Fragment>
-            <div> Blocks FEED:</div>
-            <Divider />
-            <div>{data.blocksFeed.map((block, i) => (
-                <div key={i}> <Link to={`/blocks/${block.hash}`}> Hash: {block.hash}</Link></div>
-            ))}</div>
-            <Divider />
+            <div style={{ height: 650, width: '100%', textAlign: "center" }}>
+                <Typography variant="h3" gutterBottom>Crypto Blocks feed</Typography>
+                <DataGrid pageSize={10}
+                    rows={getBlocksSummaryGridRows(data)}
+                    columns={blocksSummaryGridColumns}
+                    onCellClick={({ getValue }) => navigateToBlock(getValue, history)}
+                />
+            </div>
         </React.Fragment>
     );
 }

@@ -17,8 +17,14 @@ export const getBlockDetails = gql`
       fee
       hash
       size
+      time
+      height
+      weight
+      prevBlock
       transactions{
         hash
+        time
+        size
       }
     }
   }
