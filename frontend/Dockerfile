@@ -1,6 +1,6 @@
-FROM node:14.15-buster
+FROM node:15.13-alpine
 
-WORKDIR /app
+WORKDIR /usr/app
 
 COPY package.json ./
 

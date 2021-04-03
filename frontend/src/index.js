@@ -1,12 +1,13 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { ApolloClient, InMemoryCache, ApolloProvider, gql, useQuery, HttpLink } from "@apollo/client";
-import { createPersistedQueryLink } from "@apollo/client/link/persisted-queries";
 import sha256 from 'sha256';
 import config from "./config"
+import { ApolloClient, InMemoryCache, ApolloProvider, gql, useQuery, HttpLink } from "@apollo/client";
+import { createPersistedQueryLink } from "@apollo/client/link/persisted-queries";
 
 const httpLink = new HttpLink({ uri: config.graphqlApiUrl });
-const persistedQueriesLink = createPersistedQueryLink({ sha256 }).concat(httpLink);
+
+const persistedQueriesLink = createPersistedQueryLink({ sha256, useGETForHashedQueries: true }).concat(httpLink);
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
@@ -78,11 +79,11 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <div>-----------</div>
-      <Feed/>
+      <Feed />
       <div>-----------</div>
-      <Feed/>
+      <Feed />
       <div>-----------</div>
-      <Feed/>
+      <Feed />
       <BlockDetails hash={"0000000000000000001261c0960066324c189fc83df5080d161be0849a98a4a8"} />
     </ApolloProvider>
   );

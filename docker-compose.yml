@@ -1,34 +1,34 @@
 version: "3.7"
 
 services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ./Dockerfile
+    container_name: frontend
+    working_dir: /usr/app/frontend
+    ports:
+      - "3000:3000"
+    links:
+      - "backend"
   backend:
     build:
       context: ./backend
       dockerfile: ./Dockerfile
     container_name: backend
+    working_dir: /usr/app/backend
     environment:
       - BLOCKCHAIN_API_URL=https://blockchain.info
+      - REDIS_HOST=redis
     ports:
       - "5000:5000"
     links:
       - "redis"
     networks:
       - mynetwork
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: ./Dockerfile
-    container_name: frontend
-    environment:
-      - GRAPHQL_API_URL=http://localhost:5000/graphql
-    ports:
-      - "3000:3000"
-    links:
-      - "backend"
   redis:
     container_name: redis
     image: redis:latest
-    command: ["redis-server", "--bind", "redis", "--port", "6379"]
     networks:
       - mynetwork
 

@@ -1,14 +1,20 @@
 import Redis from "ioredis";
+import config from "../config";
 
-export const clientCache = new Redis({ host: "redis", port: 6379 });
+export const redisClient = new Redis({ host: config.redisHost, port: config.redisPort });
 
-export const createPersistedQueriesCache = (cacheService: Redis.Redis) => ({
+export const cacheServiceFactory = (cache: Redis.Redis) => ({
   get: async (key: string): Promise<string | undefined> => {
-    const value = await cacheService.get(key);
+    const value = await cache.get(key);
     return value || undefined;
   },
-  set: async (key: string, value: string) => {
-    await cacheService.set(key, value);
+  set: async (key: string, value: string, { ttl }: any) => {
+    if (ttl > 0) {
+      await cache.set(key, value, "EX", ttl);
+    }
+    await cache.set(key, value);
   },
-  delete: async (key: string) => !!(await cacheService.del(key))
+  delete: async (key: string) => {
+    await cache.del(key);
+  }
 });

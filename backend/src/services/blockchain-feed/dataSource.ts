@@ -2,7 +2,7 @@ import { BlockDetails, BlocksFeed, BlockSummary } from "./types";
 import { getRequestHeaders, HttpClient } from "../http-client";
 import { Config } from "../../config";
 
-export const blockchainDataSourceFactory = (httpClient: HttpClient, { blockchainApiUrl }: Config) => ({
+export const blockchainDataSourceFactory = (httpClient: HttpClient, { blockchainApiUrl, redisHost }: Config) => ({
   getLatestBlocksFeed: async (): Promise<BlockSummary[]> => {
     console.log("HIT BLOCKS FEED");
 
