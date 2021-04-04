@@ -1,2 +1,2 @@
-export { blockchainDataSourceFactory, BlockChainDataSourceFactory } from "./dataSource";
+export { blockchainDataSourceFactory, BlockChainDataSource } from "./dataSource";
 export * from "./types";

@@ -1,4 +1,4 @@
-import { BlockChainDataSourceFactory } from "../services/blockchain-feed";
+import { BlockChainDataSource } from "../services/blockchain-feed";
 import { HttpClient } from "../services/http-client";
 
 export const mockDataFeed = {
@@ -43,11 +43,15 @@ export const mockBlockDetails = {
   ]
 };
 
-export const blockchainServiceFactoryMock = (): jest.Mocked<BlockChainDataSourceFactory> => ({
+export const blockchainServiceFactoryMock = (): jest.Mocked<BlockChainDataSource> => ({
   getBlockDetails: jest.fn(),
   getLatestBlocksFeed: jest.fn()
 });
 
 export const httpClientFactoryMock = (): jest.Mocked<HttpClient> => ({
   get: jest.fn()
+});
+
+export const loggerFactoryMock = (): jest.Mocked<any> => ({
+  log: jest.fn()
 });

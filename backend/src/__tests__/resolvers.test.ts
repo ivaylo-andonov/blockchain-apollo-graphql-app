@@ -12,7 +12,7 @@ const schema = makeExecutableSchema({
   resolvers
 });
 
-describe("Blockchain functional test", () => {
+describe("Blockchain functional tests", () => {
   test("resolve blockchain data feed", async () => {
     blockchainServiceMock.getLatestBlocksFeed.mockResolvedValueOnce(mockDataFeed.blocks);
     const GetBlocksFeedQuery = print(gql`

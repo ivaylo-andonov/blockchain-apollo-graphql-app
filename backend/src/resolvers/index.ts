@@ -1,15 +1,10 @@
-import { BlockChainDataSourceFactory } from "../services/blockchain-feed/dataSource";
-import { BlockDetails, BlockSummary } from "../services/blockchain-feed";
+import { BlockChainDataSource } from "../services/blockchain-feed/dataSource";
+import { BlockDetails } from "../services/blockchain-feed";
 
-const rootResolversFactory = (blockchainDataSource: BlockChainDataSourceFactory) => ({
+const rootResolversFactory = (blockchainDataSource: BlockChainDataSource) => ({
   Query: {
     blocksFeed: async () => blockchainDataSource.getLatestBlocksFeed(),
     blockDetails: async (_: unknown, { hash }: { hash: string }) => blockchainDataSource.getBlockDetails(hash)
-  },
-  BlockSummary: {
-    height: ({ height }: BlockSummary) => height,
-    hash: ({ hash }: BlockSummary) => hash,
-    time: ({ time }: BlockSummary) => time
   },
   BlockDetails: {
     blockIndex: ({ block_index }: BlockDetails) => block_index,
@@ -19,5 +14,4 @@ const rootResolversFactory = (blockchainDataSource: BlockChainDataSourceFactory)
 });
 
 export type RootResolvers = ReturnType<typeof rootResolversFactory>;
-
 export default rootResolversFactory;

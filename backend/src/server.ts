@@ -7,10 +7,11 @@ import { httpClientFactory } from "./services/http-client";
 import { redisClient, cacheServiceFactory } from "./cache/redisCache";
 import responseCachePlugin from "apollo-server-plugin-response-cache";
 
+const logger = global.console;
 const httpClient = httpClientFactory();
-const blockchainDataSource = blockchainDataSourceFactory(httpClient, config);
-const resolvers = resolversFactory(blockchainDataSource);
 const cacheService = cacheServiceFactory(redisClient);
+const blockchainDataSource = blockchainDataSourceFactory(httpClient, logger, config);
+const resolvers = resolversFactory(blockchainDataSource);
 
 export default new ApolloServer({
   typeDefs,

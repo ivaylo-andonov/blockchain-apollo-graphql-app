@@ -6,9 +6,9 @@ export const DATA_SOURCE_ERROR = "There was an error at the external data provid
 export const timeout = 12 * 1000;
 
 export const httpClientFactory = () => ({
-  get: async (url: string, init?: RequestInit) => {
+  get: async (url: string, options?: RequestInit) => {
     const response = await nodeFetch(url, {
-      ...init,
+      ...options,
       timeout,
       method: "get"
     });
