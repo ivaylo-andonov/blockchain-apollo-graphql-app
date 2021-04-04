@@ -10,16 +10,15 @@
   "scripts": {
     "prebuild": "rm -rf ./dist",
     "build": "tsc -p tsconfig.json",
-    "postbuild": "copyfiles -a -u 1 \"./src/**/*.graphql\" ./dist",
+    "start": "node dist/index.js",
     "dev": "nodemon --legacy-watch",
     "lint": "eslint . --ext .ts",
-    "start": "node dist/index.js"
+    "test": "NODE_ENV=test jest"
   },
   "dependencies": {
     "@types/ioredis": "^4.22.2",
     "apollo-server": "2.19.0",
     "apollo-server-plugin-response-cache": "^0.7.0",
-    "date-fns": "2.14.0",
     "graphql": "15.4.0",
     "graphql-scalars": "1.6.1",
     "graphql-tag": "2.10.3",
@@ -28,20 +27,19 @@
   },
   "devDependencies": {
     "@types/graphql": "14.5.0",
-    "@types/jest": "26.0.19",
+    "@types/jest": "^26.0.22",
     "@types/node": "14.14.10",
     "@types/node-fetch": "2.5.7",
     "@typescript-eslint/eslint-plugin": "4.8.2",
     "@typescript-eslint/parser": "4.8.2",
     "apollo": "2.27.4",
-    "copyfiles": "2.4.0",
     "eslint": "7.14.0",
     "eslint-config-prettier": "6.15.0",
     "eslint-plugin-prettier": "3.1.4",
-    "jest": "26.6.3",
+    "jest": "^26.6.3",
     "nodemon": "2.0.6",
     "prettier": "2.2.0",
-    "ts-jest": "26.4.4",
+    "ts-jest": "^26.5.4",
     "ts-node": "9.0.0",
     "typescript": "4.1.2"
   }

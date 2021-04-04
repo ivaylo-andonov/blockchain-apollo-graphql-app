@@ -2,7 +2,7 @@ import { gql } from "apollo-server";
 
 const typeDefs = gql`
   type Query {
-    blocksFeed(daysAgo: DaysAgo): [BlockSummary] @cacheControl(maxAge: 3600)
+    blocksFeed: [BlockSummary] @cacheControl(maxAge: 3600)
     blockDetails(hash: ID!): BlockDetails @cacheControl(maxAge: 3600)
   }
 
@@ -12,19 +12,12 @@ const typeDefs = gql`
     time: Int
   }
 
-  enum DaysAgo {
-    ONE
-    THREE
-    FIVE
-    SEVEN
-  }
-
   type BlockDetails {
     blockIndex: Int
     fee: Int
     hash: ID
     height: Int
-    prevBlock: ID 
+    prevBlock: ID
     size: Int
     time: Int
     weight: Int
@@ -37,6 +30,13 @@ const typeDefs = gql`
     weight: Int
     time: Int
   }
+
+  enum CacheControlScope {
+    PUBLIC
+    PRIVATE
+  }
+
+  directive @cacheControl(maxAge: Int, scope: CacheControlScope) on FIELD_DEFINITION | OBJECT | INTERFACE
 `;
 
 export default typeDefs;
